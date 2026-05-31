@@ -25,5 +25,7 @@ to recognize incorrect assumptions?
 We have screened the relevant literature on missing value imputation with data agents
 for MAR, MCAR and MNAR and collected existing datasets which we will use in our project
 to measure the correctness of imputed values and assumptions.
-The current dataset collection consists of XXX datasets from various domains, such as
-ABC, DEF, ...
+The current dataset collection consists of 100 datasets from various domains, such as
+health, business, social sciences and biology. The data sets were acquired from UCI using
+the filters "202 <= Instances <= 15000" and "0 <= Features <= 50". Results were sorted by 
+views descending, using the first 100 results.
