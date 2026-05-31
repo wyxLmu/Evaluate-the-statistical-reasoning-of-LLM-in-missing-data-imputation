@@ -4,3 +4,26 @@ Methodology: Shengyuan
 Results to date: Felix
 Planned Paper Outline: Yixiang
 Timeline: Shengyuan
+
+*Problem and Contribution:*
+Statistical tasks used to rely a lot on deterministic methods. Since the advent and
+broad use of LLM-based tools, data imputation has been done using data agents.
+However, the trust in these non-deterministic tools depends both on the results and
+the underlying assumptions made by the data agent. This project compares a data agent
+across a large number of datasets with values being MAR (missing at random),
+MCAR (missing completely at random) or MNAR (missing not at random), respectively.
+Much of the recent work in the field (David Donoho, 2017; Sun Ming et al., 2025)
+evaluated systems based on task performance, often overlooking whether these systems can
+correctly interpret statistical assumptions.
+This raises an important gap, namely that current evaluations tend to measure output
+correctness, but not whether AI systems can detect incorrect assumptions provided by users.
+This project is motivated by the question:
+How can we assess trust in human–AI collaboration in statistical tasks via the agent’s ability
+to recognize incorrect assumptions?
+
+*Results to date:*
+We have screened the relevant literature on missing value imputation with data agents
+for MAR, MCAR and MNAR and collected existing datasets which we will use in our project
+to measure the correctness of imputed values and assumptions.
+The current dataset collection consists of XXX datasets from various domains, such as
+ABC, DEF, ...
