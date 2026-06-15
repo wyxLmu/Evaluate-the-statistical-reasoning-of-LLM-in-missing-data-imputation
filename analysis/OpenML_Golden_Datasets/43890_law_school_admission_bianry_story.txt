@@ -1,0 +1,5 @@
+Law School Admissions (Binarized) 
+ Survey among students attending law school in the U.S. in 1991. 
+ The dataset was obtained from the R-package fairml. 
+ The response variable has been changed to a binary version: Whether ugpa is greater than 3.
+ The race1 variables has been binarized to labels white and non-white.

@@ -1,0 +1,28 @@
+**Data Description**
+
+This dataset contains house sale prices for King County, which includes Seattle. It includes homes sold between May 2014 and May 2015.
+
+**Attribute Description**
+
+1. *price* - target feature
+2. *bedrooms* - number of bedrooms
+3. *bathrooms* - number of bathrooms
+4. *sqft_living* - Size of living area in square feet
+5. *sqft_lot* - Size of the lot in square feet
+6. *floors* - Number of floors
+7. *waterfront* - '1' if the property has a waterfront, '0' if not.
+8. *view* - an index from 0 to 4 of how good the view of the property was
+9. *condition* - Condition of the house, ranked from 1 to 5
+10. *grade* - Classification by construction quality which refers to the types of materials used and the quality of workmanship; the higher, the better
+11. *sqft_above* - Square feet above ground
+12. *sqft_basement* - Square feet below ground
+13. *yr_built* - Year built
+14. *yr_renovated* - Year renovated. 0 if never renovated
+15. *zipcode* - 5 digit zip code
+16. *lat* - Latitude
+17. *long* - Longitude
+18. *sqft_living15* - Average size of interior housing living space for the closest 15 houses, in square feet
+19. *sqft_lot15* - Average size of land lots for the closest 15 houses, in square feet
+20. *date_year* - Date sold - year
+21. *date_month* - Date sold - month
+22. *date_day* - Date sold - day

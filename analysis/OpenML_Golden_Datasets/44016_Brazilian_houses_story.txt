@@ -1,0 +1,19 @@
+Dataset used in the tabular data benchmark https://github.com/LeoGrin/tabular-benchmark, transformed in the same way. This dataset belongs to the "regression on numerical features" benchmark. Original description: 
+ 
+**Author**: Kaggle  
+**Source**: [original](https://www.kaggle.com/rubenssjr/brasilian-houses-to-rent) - 20-03-2020  
+**Please cite**:   
+
+This dataset contains 10962 houses to rent with 13 diferent features.
+
+**Outliers **
+Some values in the dataset can be considered as outliers for further analyses. Bear in mind that the Web Crawler was used only to get the data, so it's possible that errors in the original data exist.
+
+**Changes in data between versions of dataset **
+Since the WebCrawler was ran in different days for each version of dataset, there may be differences like added or deleted houses (as well as added cities).
+
+Notes: 
+
+1) This dataset corresponds to the 2nd version of the original dataset ("houses_to_rent_v2.csv").
+
+2) The value '-' in the attribute floor was replaced by '0' as the data contributor stated that this refers to houses with just one floor (see https://www.kaggle.com/rubenssjr/brasilian-houses-to-rent/discussion).

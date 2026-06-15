@@ -1,0 +1,25 @@
+**Source**: Dukascopy Historical Data Feed https://www.dukascopy.com/swiss/english/marketwatch/historical/
+**Edited by**: Fabian Schut
+ 
+# Data Description
+This is the historical price data of the FOREX EUR/PLN from Dukascopy.
+One instance (row) is one candlestick of one hour.
+The whole dataset has the data range from 1-1-2018 to 13-12-2018 and does not include the weekends, since the FOREX is not traded in the weekend.
+The timezone of the feature Timestamp is Europe/Amsterdam.
+The class attribute is the direction of the mean of the Close_Bid and the Close_Ask of the following hour,
+relative to the Close_Bid and Close_Ask mean of the current minute.
+This means the class attribute is True when the mean Close price is going up the following hour,
+and the class attribute is False when the mean Close price is going down (or stays the same) the following hour.
+# Attributes 
+`Timestamp`: The time of the current data point (Europe/Amsterdam)
+`Bid_Open`: The bid price at the start of this time interval
+`Bid_High`: The highest bid price during this time interval
+`Bid_Low`: The lowest bid price during this time interval
+`Bid_Close`: The bid price at the end of this time interval
+`Bid_Volume`: The number of times the Bid Price changed within this time interval
+`Ask_Open`: The ask price at the start of this time interval
+`Ask_High`: The highest ask price during this time interval
+`Ask_Low`: The lowest ask price during this time interval
+`Ask_Close`: The ask price at the end of this time interval
+`Ask_Volume`: The number of times the Ask Price changed within this time interval
+`Class`: Whether the average price will go up during the next interval

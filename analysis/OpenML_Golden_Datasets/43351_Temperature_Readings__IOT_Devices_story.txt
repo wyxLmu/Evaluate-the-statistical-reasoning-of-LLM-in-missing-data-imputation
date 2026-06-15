@@ -1,0 +1,32 @@
+Context
+This dataset is a small snap ( sample) out of ocean-depth entries in the original dataset, which keeps increasing day by day. The purpose of this dataset is to allow fellow Scientists/ Analysts to play and Find the unfounds.
+
+Content
+This dataset contains the temperature readings from IOT devices installed outside and inside of an anonymous Room (say -  admin room). The device was in the alpha testing phase. So, It was uninstalled or shut off several times during the entire reading period ( 28-07-2018 to 08-12-2018). This random interval recordings and few mis-readings ( outliers) makes it more challanging to perform analysis on this data. Let's see, what you can present in the plate out of this messy data.
+
+Technical Details:
+columns = 5  Rows = 97605
+id : unique IDs for each reading
+room_id/id : room id in which device was installed (inside and/or outside) - currently 'admin room' only for example purpose.
+noted_date : date and time of reading
+temp : temperature readings
+out/in : whether reading was taken from device installed inside or outside of room?
+
+Acknowledgements
+I sincerely thank the team working at **LimelightIT Research** for providing me the device to record the data and helping me throughout the project.
+
+Inspiration  
+I have always been curious to know how climate changes day by day, year to year. One way to understnad this is by analysis and understanding the heat index of an area. Temperature data is a small part of it. But, The findings can lead to bigger and more serious inventions and outcomes!
+From this dataset , it would be intersting to find out:
+
+what was the max and min temperature?
+How outside temperature was related to inside temperature? any relation between the two?
+What was the variance of temperature for inside and outside room temperature?
+What is the trend in the data?
+Can you use Time Series Forecast algo to predict the next scenario?
+which was the hottest/coolest month ?
+any warning signals fro climate disaster ?
+and many more 
+
+Data Science is all about finding the possibilities and verifying the probabilities!
+Thanks !
