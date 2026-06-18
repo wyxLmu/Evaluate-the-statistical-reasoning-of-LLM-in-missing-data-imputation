@@ -1,0 +1,14 @@
+Scenario 1: MCAR (Missing Completely at Random)
+Experimental Context: Hardware/Sampling Failure. The laboratory's eye-tracking hardware (e.g., a screen-mounted tracker) experienced random data dropping due to a loose USB connection or a brief buffer overflow in the recording software. As a result, the tracker failed to record the pupil diameter for random milliseconds throughout the experiment.
+
+Statistical Phenomenon: The missingness of the pupilDiamMax is completely independent of the participant's reading patterns, the word's position in the sentence, or the actual size of the pupil. It is entirely unpredictable and random.
+
+Scenario 2: MAR (Missing at Random)
+Experimental Context: Position-Induced Fatigue. Missingness in the eye-tracking data is predominantly concentrated towards the end of sentences or reading assignments. As participants read through a long text, ocular muscle fatigue naturally sets in, causing an increased frequency of spontaneous blinking. Therefore, the tracker is systematically more likely to lose the pupil signal when the participant is reading words located later in the text.
+
+Statistical Phenomenon: The correlation matrix will show that the missingness indicator (M_pupilDiamMax) has a strong, visible positive correlation with the fully observed variable wordNo (the sequential position of the word).
+
+Scenario 3: MNAR (Missing Not at Random) - The Cognitive Biometric Test
+Experimental Context: Cognitive Overload and Micro-expressions. When a participant encounters an exceptionally difficult, obscure word, or the exact keyword that answers the assignment's question, their cognitive load spikes instantly. The physiological response to this heavy cognitive processing is extreme pupil dilation (a massive pupilDiamMax). However, this intense mental effort is often accompanied by involuntary micro-expressions—such as squinting, furrowing the brows, or momentarily looking away from the screen to process the thought. These sudden physical movements cause the eye-tracker to lose the target.
+
+Statistical Phenomenon: The instrument fails to record the data precisely when the pupil diameter is at its largest. The occurrence of missingness directly depends on the unrecorded extreme physiological value itself. In a correlation matrix where the true pupilDiamMax is hidden, it will leave no visible statistical footprint, creating a deceptive MCAR illusion.

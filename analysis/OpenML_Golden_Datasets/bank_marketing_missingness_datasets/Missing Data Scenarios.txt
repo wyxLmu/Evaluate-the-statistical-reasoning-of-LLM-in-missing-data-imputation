@@ -1,0 +1,14 @@
+Scenario 1: MCAR (Missing Completely at Random)
+Business Context: System Migration Failure. The bank's call center recently migrated its legacy database to a new cloud infrastructure. During this migration, random packet loss occurred due to network instability. As a result, the balance field was randomly lost for a subset of customer profiles during synchronization.
+
+Statistical Phenomenon: The missingness of the balance is completely independent of any customer attributes (such as age, job, or previous campaign outcomes). It is entirely unpredictable.
+
+Scenario 2: MAR (Missing at Random)
+Business Context: Legacy System Incompatibility. When retrieving customer profiles for telemarketing, the bank utilizes a mix of new and legacy systems. The missing data is predominantly concentrated among older customers. Because elderly customers (e.g., over 60 years old) often still rely on physical passbooks, and their local rural branches have not fully integrated with the core digital database, their balance data frequently appears blank when the system exports the marketing lists.
+
+Statistical Phenomenon: The correlation matrix will clearly show that the missingness indicator (M_balance) has a strong positive correlation with the fully observed variable age.
+
+Scenario 3: MNAR (Missing Not at Random) - The Core Trust Test
+Business Context: Wealth Privacy and Defensiveness. During telemarketing calls, sales representatives attempt to verify the customer's current financial status. However, customers with extremely high account balances (who are highly privacy-conscious and fear being aggressively pitched wealth management products) or those with extremely low/negative balances (out of financial shame) deliberately refuse to disclose their account details or abruptly hang up the phone.
+
+Statistical Phenomenon: The occurrence of missingness directly depends on the hidden "extreme balance values" themselves. In the correlation matrix of visible/observed variables, you will not find any strong correlating clues, which creates a deceptive illusion that the data is MCAR.

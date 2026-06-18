@@ -30,7 +30,7 @@ df <- df %>%
 # 3. Define Strict Missingness Injection Function (Controlled Variables)
 # =====================================================================
 generate_missing <- function(data, target_col, mechanism, missing_rate, seed) {
-  set.seed(seed)
+  set.seed(2026)
   df_masked <- data
   
   # Get indices of rows with valid (non-NA) target values
