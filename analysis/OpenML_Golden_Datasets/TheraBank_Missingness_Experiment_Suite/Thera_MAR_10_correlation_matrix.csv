@@ -1,0 +1,15 @@
+"Variable","Correlation_with_M"
+"ID",0.0092
+"Age",0.0115
+"Experience",0.0104
+"Income",0.0012
+"ZIP_Code",-0.0111
+"Family",0.0127
+"CCAvg",0.0045
+"Education",-0.0083
+"Mortgage",-7e-04
+"Personal_Loan",-0.0023
+"Securities_Account",-0.0092
+"CD_Account",-0.0537
+"Online",-0.2547
+"CreditCard",-0.0146

@@ -1,0 +1,21 @@
+Scenario 1: MCAR (Missing Completely At Random)
+Target Variable: ZIP_Code
+
+Business Context: CRM Migration & API Timeouts. During the preparation phase for the previous personal loan campaign, the bank migrated its legacy Customer Relationship Management (CRM) database to a new cloud infrastructure. To standardize address formats, a third-party address verification API was integrated. However, this API experienced random network timeouts during the batch processing phase, causing 15% of the ZIP_Code entries to fail to record.
+
+
+Scenario 2: MAR (Missing At Random)
+Target Variable: CCAvg (Average credit card spending per month)
+
+Business Context: The Offline Information Barrier. The bank's data collection methodology differs drastically based on the customer's digital footprint. For customers actively enrolled in internet banking (Online = 1), the system automatically scrapes and calculates their monthly e-statements with high fidelity. However, for traditional offline customers (Online = 0), average spending calculations rely on the manual data entry of paper statements by branch tellers. Due to severe labor shortages and administrative backlogs at local branches, the CCAvg data for this offline cohort is frequently omitted.
+
+
+Scenario 3: MNAR (Missing Not At Random) - The Behavioral Economics Trap
+Target Variable: Income (Annual income in thousands)
+
+Business Context: The Dual-Psychological Privacy Shield. In consumer finance, self-reported income is highly susceptible to behavioral biases. The missingness in the Income field follows a distinct U-shaped curve driven by two psychological extremes:
+
+"Income Shame" (Lower Tail): Customers with annual incomes below $30,000 are often reluctant to disclose their financial status on banking surveys due to social stigma or embarrassment.
+
+"Privacy Shield" (Upper Tail): High-net-worth individuals (Income > $120,000) systematically refuse to fill in this field. They do so out of heightened privacy concerns, fear of targeted marketing harassment, or strict personal security protocols.
+
