@@ -1,0 +1,129 @@
+# =====================================================================
+# Brazilian Houses to Rent Dataset
+# Target Variable: property_tax_.BRL. (Property Tax)
+# Mechanisms: Crawler Glitch (MCAR), Small Apartment Bundling (MAR), Extreme Value Concealment (MNAR)
+# =====================================================================
+
+# 1. Environment Setup: Install and load required packages
+library(dplyr)
+library(zip)
+
+# =====================================================================
+# 2. Read Data
+# =====================================================================
+file_path <- "44016_Brazilian_houses_data.csv"
+if (!file.exists(file_path)) {
+  stop("File not found! Please ensure the CSV file is in the working directory.")
+}
+df <- read.csv(file_path, stringsAsFactors = FALSE)
+
+# =====================================================================
+# 3. Define Core Masking Function (Weight-based exact sampling)
+# =====================================================================
+generate_brazilian_houses_missing <- function(data, mechanism, missing_rate, seed) {
+  set.seed(seed)
+  df_masked <- data
+  n_rows <- nrow(data)
+  n_missing <- round(n_rows * missing_rate)
+  target_col <- "property_tax_.BRL."
+  
+  if (mechanism == "MCAR") {
+    # Scenario 1: Web crawler parsing glitch (Uniform random probability)
+    probs <- rep(1, n_rows) 
+    
+  } else if (mechanism == "MAR") {
+    # Scenario 2: Bundled pricing for small apartments (Driver: area)
+    # Extremely small apartments (area < 50 sq meters) have a 5x higher chance of leaving property tax blank
+    probs <- ifelse(data$area < 50, 5, 1)
+    
+  } else if (mechanism == "MNAR") {
+    # Scenario 3: "Sticker Shock" concealment (Driver: Extreme high value of property_tax_.BRL. itself)
+    # Sky-high property taxes (top 10% quantile here) have an 8x higher chance of being left blank
+    threshold <- quantile(data[[target_col]], 0.90, na.rm = TRUE)
+    probs <- ifelse(data[[target_col]] > threshold, 8, 1)
+  }
+  
+  # Execute weighted sampling without replacement to achieve exact missing rate
+  valid_indices <- 1:n_rows
+  missing_indices <- sample(valid_indices, size = n_missing, replace = FALSE, prob = probs)
+  
+  # Apply mask: Set sampled row values to NA
+  df_masked[[target_col]][missing_indices] <- NA
+  
+  return(list(data = df_masked, target = target_col))
+}
+
+# =====================================================================
+# 4. Batch Generate 6 Control Datasets and Correlation Matrices
+# =====================================================================
+set_params <- list(
+  list(name = "BrazilianHouses_MCAR_10", mech = "MCAR", rate = 0.10, seed = 301),
+  list(name = "BrazilianHouses_MAR_10",  mech = "MAR",  rate = 0.10, seed = 302),
+  list(name = "BrazilianHouses_MNAR_10", mech = "MNAR", rate = 0.10, seed = 303),
+  list(name = "BrazilianHouses_MCAR_30", mech = "MCAR", rate = 0.30, seed = 304),
+  list(name = "BrazilianHouses_MAR_30",  mech = "MAR",  rate = 0.30, seed = 305),
+  list(name = "BrazilianHouses_MNAR_30", mech = "MNAR", rate = 0.30, seed = 306)
+)
+
+output_files <- c() # Track generated files for zipping
+
+cat("Starting missing data injection and correlation computation...\n")
+
+for (params in set_params) {
+  name <- params$name
+  
+  # A. Generate masked data
+  result <- generate_brazilian_houses_missing(df, params$mech, params$rate, params$seed)
+  masked_data <- result$data
+  target_col <- result$target
+  
+  # Export dataset to CSV
+  data_filename <- paste0(name, "_data.csv")
+  write.csv(masked_data, data_filename, row.names = FALSE)
+  output_files <- c(output_files, data_filename)
+  
+  # B. Calculate missingness correlation matrix
+  # Missingness indicator M (1 = missing, 0 = observed)
+  M_indicator <- ifelse(is.na(masked_data[[target_col]]), 1, 0)
+  
+  # Extract all numerical columns to calculate point-biserial correlation
+  numeric_cols <- df %>% select_if(is.numeric)
+  corr_matrix <- cor(numeric_cols, M_indicator, use = "pairwise.complete.obs")
+  
+  corr_df <- data.frame(
+    Variable = rownames(corr_matrix),
+    Correlation_with_M = round(as.numeric(corr_matrix), 4)
+  )
+  
+  # =====================================================================
+  #  The Real Estate MNAR Trap:
+  # If the mechanism is MNAR, forcefully remove the target variable "property_tax_.BRL." row.
+  # This simulates reality where concealed astronomical taxes cannot be analyzed.
+  # =====================================================================
+  if (params$mech == "MNAR") {
+    corr_df <- corr_df %>% filter(Variable != target_col)
+  }
+  
+  # Save correlation matrix
+  corr_filename <- paste0(name, "_correlation_matrix.csv")
+  write.csv(corr_df, corr_filename, row.names = FALSE)
+  output_files <- c(output_files, corr_filename)
+}
+
+# =====================================================================
+# 5. Package Outputs and Clean Workspace
+# =====================================================================
+zip_filename <- "BrazilianHouses_Missingness_Experiment_Suite.zip"
+
+# Create a ZIP archive containing all 12 CSV files
+zip::zip(zipfile = zip_filename, files = output_files)
+
+# Remove the 12 individual CSV files to keep the local directory clean
+file.remove(output_files)
+
+cat("\n======================================================\n")
+cat("✅ Brazilian Houses dataset generation successful!\n")
+cat("Injected mechanisms: [Crawler Glitch (MCAR) / Small Apt Bundling (MAR) / Extreme Tax Concealment (MNAR)]\n")
+cat("6 datasets and 6 correlation matrices have been successfully zipped.\n")
+cat("ZIP Output Path: ", file.path(getwd(), zip_filename), "\n")
+cat("======================================================\n")

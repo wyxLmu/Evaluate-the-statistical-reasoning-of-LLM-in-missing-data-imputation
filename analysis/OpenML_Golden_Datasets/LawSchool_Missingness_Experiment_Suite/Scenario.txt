@@ -1,0 +1,14 @@
+Scenario 1: MCAR (Missing Completely At Random)
+Target Variable: ugpa (Undergraduate GPA)
+
+Contextual Rationale: The Optical Scanner Glitch. In 1991, surveys were often processed using physical Scantron sheets and optical mark recognition (OMR) scanners. A specific batch of survey forms supplied to several testing centers had a slight printing misalignment specifically in the "Undergraduate GPA" bubble section. As a result, the optical scanner randomly failed to read and digitize the UGPA entries for 15% of the respondents.
+
+Scenario 2: MAR (Missing At Random)
+Target Variable: ugpa (Undergraduate GPA)
+
+Contextual Rationale: Memory Decay among Non-Traditional Students. The dataset contains the fully observed variable age. Older, non-traditional students (e.g., age > 30) are returning to law school after spending several years or even a decade in the workforce. When asked to report their exact undergraduate GPA on the survey, many of these older students simply cannot remember the exact decimal value from years ago and choose to leave it blank rather than guess. Younger students (e.g., age 22-24) who just graduated college remember their UGPA perfectly.
+
+Scenario 3: MNAR (Missing Not At Random) - The Academic Stigma Trap
+Target Variable: ugpa (Undergraduate GPA)
+
+Contextual Rationale: Systematic Shame & Imposter Syndrome. In the highly competitive, prestige-driven environment of US law schools, academic metrics are tied heavily to a student's self-worth. Students whose undergraduate GPA falls at the bottom of the cohort (e.g., ugpa < 2.8) experience intense academic stigma and imposter syndrome. Fearing judgment, potential discrimination, or simply out of deep psychological shame, these low-performing students systematically refuse to fill in their GPA on the survey, even if it claims to be anonymous.

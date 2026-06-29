@@ -1,0 +1,15 @@
+Scenario 1: MCAR (Missing Completely At Random)
+Target Variable: release_clause_eur (Release Clause)
+
+Contextual Rationale: Web Scraper API Timeout. The dataset was compiled by scraping a football analytics platform. During the data collection process, the website's database experienced random latency spikes. For 15% of the player profile requests, the API timed out specifically when loading the "Contract Details" sub-table.
+
+Scenario 2: MAR (Missing At Random)
+Target Variable: release_clause_eur (Release Clause)
+
+Contextual Rationale: Veteran Short-Term Contracts. In football, contract structures change significantly as players age. Older veterans (e.g., age >= 32) typically sign 1-year rolling contracts that rarely include formal release clauses, or scouts simply don't bother logging this data for players approaching retirement. Therefore, the missingness relies heavily on the fully observed variable age.
+
+
+Scenario 3: MNAR (Missing Not At Random) - The Transfer Market Trap
+Target Variable: release_clause_eur (Release Clause)
+
+Contextual Rationale: Superstar Confidentiality. The missingness is directly driven by the unobserved, astronomically high value of the release clause itself. Clubs intentionally keep the massive release clauses of their top superstars (or highly coveted wonderkids) strictly confidential. They hide this exact figure from public databases to prevent hostile buyout bids from rival clubs and to suppress media speculation during the transfer window.

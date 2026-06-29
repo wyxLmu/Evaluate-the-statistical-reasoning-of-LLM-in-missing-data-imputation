@@ -1,0 +1,9 @@
+"Variable","Correlation_with_M"
+"age",0.0063
+"decile1",2e-04
+"decile3",-2e-04
+"fam_inc",-0.0047
+"lsat",9e-04
+"ugpa",0.0073
+"cluster",1e-04
+"fulltime",-0.0155

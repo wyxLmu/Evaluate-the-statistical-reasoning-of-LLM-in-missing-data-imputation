@@ -1,0 +1,15 @@
+Scenario 1: MCAR (Missing Completely At Random)
+Target Variable: property_tax_.BRL. (Property Tax)
+
+Contextual Rationale: Web Crawler Parsing Glitch. Because this dataset was generated using a web crawler, it relies on parsing HTML tags from the real estate platform. During the weeks the crawler was running, the target website's IT team conducted a UI A/B test, temporarily changing the CSS class name of the "Property Tax" <div> container for a random 15% of the users/sessions. As a result, the crawler's regular expression failed to locate and extract the tax value for these specific listings.
+
+Scenario 2: MAR (Missing At Random)
+Target Variable: property_tax_.BRL. (Property Tax)
+
+Contextual Rationale: Bundled Pricing for Small Apartments. The missingness depends heavily on the fully observed variable area (property size in square meters). In the Brazilian rental market, landlords of very small apartments or studios (e.g., area < 50 sq meters) frequently bundle the relatively minor property tax directly into the monthly rent to simplify the listing for young renters. Consequently, they deliberately leave the separate "Property Tax" input box empty on the platform.
+
+
+Scenario 3: MNAR (Missing Not At Random) - The Real Estate Trap
+Target Variable: property_tax_.BRL. (Property Tax)
+
+Contextual Rationale: The "Sticker Shock" Concealment. The missingness is directly driven by the unobserved, extreme high value of the property tax itself. Landlords of properties burdened with astronomically high property taxes (e.g., poorly zoned properties, or luxury units in ultra-premium neighborhoods) intentionally hide this specific cost on public listings. They leave the field blank to prevent "sticker shock" from scaring away potential leads, preferring to disclose this massive hidden fee only during private negotiations.
