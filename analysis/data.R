@@ -3,7 +3,7 @@ required_packages <- c("OpenML", "dplyr", "farff", "stringr")
 
 for (pkg in required_packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    message(paste("📦 Installing missing dependency:", pkg))
+    message(paste("Installing missing dependency:", pkg))
     install.packages(pkg)
   }
 }
@@ -33,7 +33,7 @@ set.seed(2026) # Ensures reproducibility for every extraction
 candidate_pool <- sample_n(filtered_datasets, min(100, nrow(filtered_datasets)))
 
 # Step 4: Batch fetch background stories, execute automatic "story length" review
-message("🚀 Starting sociological background review for candidate datasets (looking for rich stories with > 200 characters)...")
+message(" Starting sociological background review for candidate datasets (looking for rich stories with > 200 characters)...")
 
 rich_datasets <- data.frame()
 
@@ -57,7 +57,7 @@ for (i in 1:nrow(candidate_pool)) {
   
   # Core review: Background story must be greater than 200 characters
   if (nchar(clean_desc) > 200) {
-    message("✅ Captured high-quality story dataset: ", current_name, " (Length: ", nchar(clean_desc), ")")
+    message("aptured high-quality story dataset: ", current_name, " (Length: ", nchar(clean_desc), ")")
     
     rich_datasets <- bind_rows(rich_datasets, data.frame(
       data.id = current_id,
@@ -68,8 +68,8 @@ for (i in 1:nrow(candidate_pool)) {
   }
   
   # Efficiency optimization: Stop downloading immediately once 20 premium datasets are found
-  if (nrow(rich_datasets) >= 20) {
-    message("🎯 Successfully collected 20 candidate datasets. Terminating search early to save time!")
+  if (nrow(rich_datasets) >= 25) {
+    message(" Successfully collected 20 candidate datasets. Terminating search early to save time!")
     break
   }
 }
@@ -78,7 +78,7 @@ for (i in 1:nrow(candidate_pool)) {
 rich_datasets <- rich_datasets %>% arrange(desc(desc_length))
 
 message("\n=======================================================")
-message("🏆 Congratulations! Here is your curated menu of high-quality datasets (for you to pick the final 10):")
+message(" Congratulations! Here is your curated menu of high-quality datasets (for you to pick the final 10):")
 print(rich_datasets[, c("data.id", "name", "desc_length")])
 
 # If you want to view their stories in RStudio like in Excel:
@@ -107,7 +107,7 @@ View(raw_data)
 # 4. Display story: Format and print the complete background story in the console
 # Professor's tip: We use cat() instead of print() here because cat() perfectly parses line breaks in the text, letting you read it like an article!
 cat("\n=======================================================\n")
-cat("📖 Complete sociological background story for [", target_name, "]\n")
+cat("Complete sociological background story for [", target_name, "]\n")
 cat("=======================================================\n\n")
 cat(dataset_background)
 cat("\n\n=======================================================\n")
@@ -129,7 +129,7 @@ for (i in 1:nrow(rich_datasets)) {
   # Clean up special characters in the dataset name to prevent errors when saving as a filename
   target_name <- gsub("[^A-Za-z0-9]", "_", rich_datasets$name[i]) 
   
-  message(sprintf("⏳ Packaging dataset %d/20: %s (ID: %d)", i, target_name, target_id))
+  message(sprintf("packaging dataset %d/20: %s (ID: %d)", i, target_name, target_id))
   
   # Download the dataset (wrapped in tryCatch as a safety net)
   oml_dataset <- tryCatch({

@@ -1,0 +1,17 @@
+
+
+ Missing Data Scenarios: IoT Temperature Readings (Target Variable: temp)
+Scenario 1: MCAR (Missing Completely at Random)
+Engineering Context: Server Restarts & Alpha Firmware Bugs. As noted in the dataset documentation, this IoT monitoring system is in its alpha testing phase. Due to backend memory leak issues, the IT operations team has scripted the central cloud server to perform brief, random reboots throughout the week. Alternatively, early-stage firmware bugs cause random packet drops at the local network gateway.
+
+Statistical Phenomenon: The missingness of the temp (temperature) readings is completely unpredictable. It has absolutely no statistical relationship with the true ambient temperature, the device's installation location (out.in), or the specific time of day.
+
+Scenario 2: MAR (Missing at Random)
+Engineering Context: Physical Obstruction and Wi-Fi Attenuation. The dataset contains a critical, fully observed categorical variable: out.in (whether the device is installed inside or outside). Sensors installed "Out" (outside) must transmit their Wi-Fi signals through thick, load-bearing building walls and are subject to outdoor electromagnetic interference. Consequently, these outdoor sensors experience network timeouts and data upload failures at a significantly higher rate than indoor devices.
+
+Statistical Phenomenon: The correlation matrix will show a strong, systematic positive correlation between the missingness indicator (M_temp) and the observed location variable (e.g., if out.in is transformed into a dummy variable is_out). The probability of missing data systematically increases simply by virtue of the device being located outdoors.
+
+Scenario 3: MNAR (Missing Not at Random) - The Hardware Engineering Trap
+Engineering Context: Thermal Shutdown of Alpha Sensors. These low-cost, alpha-stage temperature probes have poor thermal endurance. When an outdoor sensor is subjected to direct, blazing midday summer sunlight, or if the Admin Room's HVAC system suddenly fails causing indoor temperatures to dangerously spike (e.g., approaching 45°C - 50°C), the sensor's electronic chip overheats. This triggers a hardware-level thermal shutdown (or causes extreme-heat battery failure). The device abruptly powers off and remains disconnected from the network until the ambient temperature drops back to a safe operating threshold.
+
+Statistical Phenomenon: The monitoring system fails to record the data precisely when the environmental temperature reaches its most dangerous, extreme peak. The occurrence of missingness is directly and strongly dependent on the unrecorded, extreme heat itself. In a correlation matrix where the true extreme temperatures are hidden, this deadly blind spot leaves no statistical footprint, creating a deceptive illusion of an MCAR network glitch.

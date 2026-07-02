@@ -1,0 +1,5 @@
+**Author**: Rui Camacho (rcamacho@garfield.fe.up.pt)  
+**Source**: [Regression datasets collection Luis Torgo](http://www.dcc.fc.up.pt/~ltorgo/Regression/DataSets.html)  
+**Please cite**:   
+
+This data set is also obtained from the task of controlling the ailerons of a F16 aircraft, although the target variable and attributes are different from the ailerons domain. The target variable here is a variation instead of an absolute value, and there was some pre-selection of the attributes.

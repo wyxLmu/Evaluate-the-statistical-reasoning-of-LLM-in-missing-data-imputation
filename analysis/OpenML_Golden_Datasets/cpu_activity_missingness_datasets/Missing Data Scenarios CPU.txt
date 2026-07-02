@@ -5,7 +5,7 @@ System Context: UDP Network Packet Loss. The Sun Sparcstation server transmits i
 Statistical Phenomenon: The missingness of the usr (user-mode CPU utilization) is entirely unpredictable. It has absolutely no statistical relationship with the actual CPU load, memory usage, system calls, or any other system state at that given moment.
 
 Scenario 2: MAR (Missing at Random)
-System Context: Interrupt-Driven Buffer Overflow. The monitoring daemon uses a fixed-size internal buffer to temporarily store log entries. When the server experiences a massive surge in underlying system calls (measured by the fully observed variable scall—e.g., due to heavy I/O operations or frequent kernel interrupts), this buffer quickly overflows with high-priority system events. Consequently, lower-priority user-level metrics like usr are frequently dropped to clear the queue.
+System Context: Interrupt-Driven Buffer Overflow. The monMitoring daemon uses a fixed-size internal buffer to temporarily store log entries. When the server experiences a massive surge in underlying system calls (measured by the fully observed variable scall—e.g., due to heavy I/O operations or frequent kernel interrupts), this buffer quickly overflows with high-priority system events. Consequently, lower-priority user-level metrics like usr are frequently dropped to clear the queue.
 
 Statistical Phenomenon: The correlation matrix will show that the missingness indicator (M_usr) has a strong, visible positive correlation with the fully observed variable scall. The higher the frequency of system calls, the systematically higher the probability that the usr data is missing.
 

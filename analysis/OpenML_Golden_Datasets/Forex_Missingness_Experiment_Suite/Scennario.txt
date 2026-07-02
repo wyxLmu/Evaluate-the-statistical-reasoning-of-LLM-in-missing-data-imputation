@@ -1,0 +1,14 @@
+Scenario 1: MCAR (Missing Completely At Random)
+Target Variable: Bid_Volume
+
+Contextual Rationale: Routine Server Log Rotations. The data provider (Dukascopy) utilizes distributed servers to stream tick data. During routine hourly server log rotations and database indexing, micro-interruptions occasionally occur. This causes random packets of volume data to be dropped before they are written to the historical database.
+
+Scenario 2: MAR (Missing At Random)
+Target Variable: Bid_Volume
+
+Contextual Rationale: Down-Trend Tick Aggregation. The missingness depends heavily on the fully observed variable Class (whether the market price is going up or down). During hours when the market trend is downward (Class == "False"), sell-side algorithms dominate the market, generating massive Ask_Volume. To save bandwidth during these bearish phases, the broker's API aggressively aggregates or throttles the less active Bid_Volume feed, occasionally resulting in complete hourly omissions.
+
+Scenario 3: MNAR (Missing Not At Random) - The High-Frequency Trading Trap
+Target Variable: Bid_Volume
+
+Contextual Rationale: API Overload during Macroeconomic Shocks. The missingness is directly driven by the unobserved, astronomically high value of the Bid_Volume itself. When major macroeconomic news is released (e.g., US Non-Farm Payrolls or Swiss National Bank rate decisions), extreme liquidity shocks trigger millions of algorithmic trades within milliseconds. The broker's recording API simply cannot handle this extreme high-frequency tick rate and crashes temporarily, logging an NA for that hour.

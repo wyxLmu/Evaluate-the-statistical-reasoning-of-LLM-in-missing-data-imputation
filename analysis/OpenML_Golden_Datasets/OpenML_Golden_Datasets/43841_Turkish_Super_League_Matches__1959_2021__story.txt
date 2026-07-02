@@ -1,0 +1,6 @@
+Context
+This data is collected using a Python script and selenium.
+Content
+This dataset includes all of the matches played in Turkish Super League with information about matchdays, half and full time results, red cards seen by both teams etc.
+Racing Bar Chart
+https://public.flourish.studio/visualisation/3760773/
