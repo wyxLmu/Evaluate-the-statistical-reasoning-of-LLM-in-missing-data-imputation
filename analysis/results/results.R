@@ -1,9 +1,9 @@
 # ==========================================
-# 自动化实证数据分析：MNAR 盲区 (动态计算版)
+# 实证数据分析
 # ==========================================
 
 # 1. 加载必要的包
-# install.packages(c("ggplot2", "dplyr", "readxl", "scales"))
+
 library(ggplot2)
 library(dplyr)
 library(readxl)
@@ -11,7 +11,7 @@ library(scales)
 
 # 2. 动态读取并清洗数据
 # 请确保文件名与你电脑中的完全一致 (注意文件名中的空格)
-file_name <- "results_coded_full .xlsx"
+file_name <- "results_coded_full(new) .xlsx"
 df <- read_excel(file_name, sheet = 1)
 
 # 筛选中立条件 (Neutral)，并统计各个机制的准确率
@@ -88,13 +88,6 @@ p <- p +
   annotate("text", x = 2.25, y = 1.24, label = paste("Fisher's Exact Test:", p_text), 
            size = 4.5, fontface = "italic")
 
-# 如果 MNAR 准确率依然很低，添加结构性失效文本提示
-if(mnar_correct == 0){
-  p <- p + annotate("text", x = 3, y = max(stats_df$CI_Upper[stats_df$true_mech == "MNAR"]) + 0.03, 
-                    label = "Structural\nFailure", color = "#C44E52", fontface = "bold", size = 4)
-}
-
-# 显示图表
 print(p)
 
 # ggsave("Figure1_MNAR_Dynamic.pdf", plot = p, width = 8, height = 6, device = "pdf")
@@ -205,7 +198,7 @@ df <- read_excel(file_name, sheet = 1)
 df_certainty <- df %>%
   filter(!is.na(certainty)) %>%
   mutate(
-    Correctness = ifelse(mech_correct == 1, "Correct ", "Incorrect "),
+    Correctness = ifelse(mech_correct == 1, "Correct", "Incorrect"),
     # 确信度评分已在 excel 中量化（如 1-10）
   )
 
@@ -290,3 +283,130 @@ print(p3)
   print(p3_final)
   
   # ggsave("Figure3_Final.pdf", plot = p3_final, width = 9, height = 6)
+  
+  
+  
+  library(tidyverse)
+  library(readxl)
+  
+  df <- read_excel("results_coded_full(new) .xlsx")
+  
+  df_cleaned <- df %>%
+    mutate(
+      clean_condition = case_when(
+        str_detect(condition, "Neutral") ~ "Neutral (Baseline)",
+        str_detect(condition, "Misleading1") ~ "Misleading Path 1",
+        str_detect(condition, "Misleading2") ~ "Misleading Path 2",
+        TRUE ~ "Neutral (Baseline)" 
+      )
+    ) %>%
+    mutate(
+      # 核心修改：将 Neutral 放在中心，展示向两种不同错误机制引导的分支
+      clean_condition = factor(clean_condition, levels = c("Misleading Path 1", "Neutral (Baseline)", "Misleading Path 2"))
+    )
+  
+  set.seed(42)
+  pd <- position_jitter(width = 0.05, height = 0.08)
+  
+  ggplot(df_cleaned, aes(x = clean_condition, y = certainty, group = case_id)) +
+    geom_line(alpha = 0.25, color = "#0072B2", position = pd, linewidth = 0.8) +
+    geom_point(alpha = 0.7, color = "#E69F00", size = 2.5, position = pd) +
+    scale_y_continuous(
+      breaks = c(-1, 0, 1), 
+      labels = c("Low (-1)", "Moderate (0)", "High (1)"),
+      limits = c(-1.2, 1.2)
+    ) +
+    labs(
+      title = "Does AI Certainty Update Under Different Pushback Directions?",
+      subtitle = "Tracking certainty deviation from baseline when guided towards alternative wrong mechanisms",
+      x = "Experimental Condition (Independent Misleading Paths)",
+      y = "Agent Certainty Score"
+    ) +
+    theme_minimal(base_size = 14) +
+    theme(
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(face = "bold", size = 11)
+    )
+    
+
+  # 加载必要的数据科学包
+  library(tidyverse)
+  library(readxl)
+  
+  # ==========================================
+  # 1. 数据读取与分析 (Data Analysis Pipeline)
+  # ==========================================
+  
+  # 读取原始实验数据
+  df_raw <- read_excel("results_coded_full(new) .xlsx")
+  
+  # 数据清洗与准确率计算
+  df_summary <- df_raw %>%
+    mutate(
+      clean_condition = case_when(
+        str_detect(condition, "Neutral") ~ "Neutral",
+        str_detect(condition, "Misleading1") ~ "Misleading 1",
+        str_detect(condition, "Misleading2") ~ "Misleading 2",
+        TRUE ~ "Neutral" 
+      )
+    ) %>%
+    # 使用真实的机制列名 true_mech 进行分组
+    group_by(true_mech, clean_condition) %>%
+    summarise(
+      total_responses = n(),
+      # 使用真实的正确判定列名 mech_correct 进行计算
+      correct_responses = sum(mech_correct == 1, na.rm = TRUE),
+      Accuracy = round((correct_responses / total_responses) * 100, 0), 
+      .groups = "drop"
+    ) %>%
+    mutate(
+      # 锁定坐标轴顺序
+      true_mech = factor(true_mech, levels = rev(c("MCAR", "MAR", "MNAR"))),
+      clean_condition = factor(clean_condition, levels = c("Neutral", "Misleading 1", "Misleading 2"))
+    )
+  
+  # 打印出计算好的数据框，检查数据分析是否正确
+  print(df_summary)
+  
+  # ==========================================
+  # 2. 自动化热力图渲染 (Data Visualization)
+  # ==========================================
+  
+  ggplot(df_summary, aes(x = clean_condition, y = true_mech, fill = Accuracy)) +
+    # 使用白色粗边框切割色块
+    geom_tile(color = "white", linewidth = 6) + 
+    # 动态插入计算出的百分比，并根据背景深浅自动切换字体颜色
+    geom_text(aes(label = paste0(Accuracy, "%"), color = Accuracy > 50),
+              size = 6.5, fontface = "bold") +
+    # 准确率颜色映射：强制锁定 0-100 的范围，确保颜色梯度绝对标准
+    scale_fill_gradientn(
+      colors = c("#CFFDF1", "#B9E8DF", "#5B90C4", "#356A9D"),
+      values = scales::rescale(c(0, 10, 80, 100)),
+      limits = c(0, 100), 
+      guide = "none"
+    ) +
+    # 字体颜色映射控制
+    scale_color_manual(values = c("TRUE" = "white", "FALSE" = "#2D3748"), guide = "none") +
+    # 坐标轴与主题设置
+    scale_x_discrete(position = "top") +
+    labs(
+      title = "Mechanism × prompt condition accuracy",
+      subtitle = "Calculated directly from experimental results",
+      x = NULL, y = NULL
+    ) +
+    theme_minimal(base_size = 15) +
+    theme(
+      panel.grid = element_blank(),
+      axis.text.x.top = element_text(face = "bold", color = "#1A202C", size = 13, margin = margin(b = -5)),
+      axis.text.y = element_text(face = "bold", color = "#1A202C", size = 13, margin = margin(r = 10)),
+      plot.title = element_text(face = "bold", color = "#111827", size = 20, margin = margin(b = 8)),
+      plot.subtitle = element_text(color = "#4A5568", size = 13, margin = margin(b = 20)),
+      plot.title.position = "plot",
+      plot.margin = margin(t = 20, r = 30, b = 20, l = 20)
+    )
+
+
+  colnames(df_raw)
+
+  
